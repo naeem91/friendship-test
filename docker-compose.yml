@@ -15,6 +15,9 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    
+    volumes:
+      - $PWD/backend:/app
 
     depends_on:
       - db
@@ -40,9 +43,10 @@ services:
   frontend:
     container_name: ft-frontend
     build: frontend
-
     ports:
       - 3000:3000
+    volumes:
+      - $PWD/frontend:/app
 
 volumes:
   postgres_data:
