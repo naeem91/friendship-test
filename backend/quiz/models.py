@@ -30,6 +30,7 @@ class Quiz(models.Model):
     link = models.CharField(max_length=200, unique=True) 
     creator = models.CharField(max_length=255)
     questions = models.JSONField()
+    answers = models.JSONField()
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

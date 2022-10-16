@@ -27,6 +27,11 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class QuizSerializer(serializers.ModelSerializer):
+    quiz_link = serializers.SerializerMethodField()
+
     class Meta:
         model = Quiz
-        fields = ['id', 'creator', 'questions']
+        fields = ['id', 'creator', 'questions', 'quiz_link']
+
+    def get_quiz_link(self, quiz):
+        return quiz.link
