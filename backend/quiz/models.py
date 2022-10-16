@@ -1,4 +1,8 @@
+import uuid
+
 from django.db import models
+
+from .utils import generate_random_code
 
 
 class Question(models.Model):
@@ -31,5 +35,32 @@ class Quiz(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.creator} - {self.link}'
+        return f'{self.id} - {self.creator} - {self.link}'
     
+    def save(self, *args, **kwargs) -> None:
+        if self.link:
+            super().save(*args, **kwargs)
+        else:
+            self._generate_link(*args, **kwargs)
+
+    def _generate_link(self, *args, **kwargs):
+        """
+        Try to generate a unique short link first (9 alphabets only)
+        but if all short codes have been exausted already then 
+        fallback to uuid 
+        """
+        link_generated = False
+
+        for _ in range(5):
+            self.link = generate_random_code()
+            try:
+                super().save(*args, **kwargs)
+                link_generated = True
+            except Exception:
+                continue
+            else:
+                break
+    
+        if not link_generated:
+            self.link = str(uuid.uuid4())
+            super().save(*args, **kwargs) 
