@@ -20,7 +20,7 @@ const QuizAttemptPage = (props) => {
         getQuestions();
     }, [link]);
 
-    if (!questions) return 'No questions!'
+    if (!questions) return 'No questions found in this quiz!'
 
     return (
         <Box

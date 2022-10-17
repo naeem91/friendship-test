@@ -14,8 +14,9 @@ const QuizCreatePage = (props) => {
     
     React.useEffect(() => {
         async function getQuestions(){
-            const response = await ApiClient.get('/questions')
-            setQuestions(response.data);
+            const response = await ApiClient.get('/questions');
+            if(response.data.length)
+                setQuestions(response.data);
         }
         getQuestions();
     }, []);
@@ -29,7 +30,7 @@ const QuizCreatePage = (props) => {
         }
     }
 
-    if (!questions) return 'No questions!'
+    if (!questions) return 'There are no questions to display right now'
 
     return (
         <>
